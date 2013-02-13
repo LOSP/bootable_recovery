@@ -11,7 +11,7 @@ $(RECOVERY_EXECTABLES): $(LOCAL_INSTALLED_MODULE)
 	@echo "copy $@ "
 	@mkdir -p $(dir $@)
 	@rm -rf $@
-	@cp -rf src/utilities/$(notdir $@) $(dir $@)
+	@cp -rf bootable/recovery/utilities/$(notdir $@) $(dir $@)
 
 ALL_DEFAULT_INSTALLED_MODULES += $(RECOVERY_EXECTABLES)
 
