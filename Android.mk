@@ -52,7 +52,7 @@ LOCAL_STATIC_LIBRARIES += libminzip libunz libmtdutils libmincrypt
 LOCAL_STATIC_LIBRARIES += libedify libcrecovery libflashutils libmmcutils libbmlutils
 LOCAL_STATIC_LIBRARIES += libmkyaffs2image libunyaffs liberase_image libdump_image libflash_image
 LOCAL_STATIC_LIBRARIES += libmiui libcutils
-LOCAL_STATIC_LIBRARIES += libstdc++ libc libm libminadbd
+LOCAL_STATIC_LIBRARIES += libstdc++ libc libm libminadbd libselinux
 
 
 LOCAL_C_INCLUDES += system/extras/ext4_utils
