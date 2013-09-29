@@ -45,6 +45,25 @@ if [ -e ${BLOCK_DEVICE} ]; then
         chmod 0755 ${BINDMOUNT_PATH}
         mount -o bind ${BINDMOUNT_PATH} ${MOUNT_POINT}
 
+    # cache
+    elif [ "${BLOCK_DEVICE}" == "/dev/block/platform/msm_sdcc.1/by-name/cache" ];then
+        if [ "${SYSPART}" == "system" ];then
+            BINDMOUNT_PATH="/cache_root/system0"
+        elif [ "${SYSPART}" == "system1" ];then
+            BINDMOUNT_PATH="/cache_root/system1"
+        else
+            reboot recovery
+        fi
+
+        # mount /data_root
+        mkdir -p /cache_root
+        chmod 0755 /cache_root
+        mount -t ext4 -o nosuid,nodev,barrier=1,noauto_da_alloc ${BLOCK_DEVICE} /cache_root
+
+        # bind mount
+        mkdir -p ${BINDMOUNT_PATH}
+        chmod 0755 ${BINDMOUNT_PATH}
+        mount -o bind ${BINDMOUNT_PATH} ${MOUNT_POINT}
     # normal mount
     else
         mount -t ext4 -o nosuid,nodev,barrier=1,noauto_da_alloc ${BLOCK_DEVICE} ${MOUNT_POINT}

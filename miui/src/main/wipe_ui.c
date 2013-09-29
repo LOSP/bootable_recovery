@@ -39,10 +39,13 @@ int wipe_system_num;
 #ifdef DUALSYSTEM_PARTITIONS
                 if (is_tdb_enabled()) {
                     miuiIntent_send(INTENT_MOUNT, 1, "/data");
+                    miuiIntent_send(INTENT_MOUNT, 1, "/cache");
                     if (wipe_system_num == 0) {
                         __system("rm -rf /data/system0");
+                        __system("rm -rf /cache/system0");
                     } else {
                         __system("rm -rf /data/system1");
+                        __system("rm -rf /cache/system1");
                     }
                 } else {
                     miuiIntent_send(INTENT_WIPE, 1, "/cache");
