@@ -197,6 +197,19 @@ int ag_changcolor(char ch1, char ch2, char ch3, char ch4)
     ag_changecolorspace(arg[0], arg[1], arg[2], arg[3]);
     return 0;
 }
+
+#ifdef DUALSYSTEM_PARTITIONS
+// only xiaomi devices have dual system and need the following code
+void ag_fb_blank(int blank)
+{
+    int ret;
+
+    ret = ioctl(ag_fb, FBIOBLANK, blank ? FB_BLANK_POWERDOWN : FB_BLANK_UNBLANK);
+    if (ret < 0)
+        perror("ioctl(): blank");
+}
+#endif
+
 /*********************************[ FUNCTIONS ]********************************/
 //-- INITIALIZING AMARULLZ GRAPHIC
 byte ag_init(){
@@ -239,9 +252,13 @@ byte ag_init(){
           close(ag_fb);
           return -1;
       }
-
       ag_32   = 0;
       ag_fbuf = (word*) mmap(0,ag_fbf.smem_len,PROT_READ|PROT_WRITE,MAP_SHARED,ag_fb,0);
+      if (ag_fbuf == MAP_FAILED) {
+          perror("failed to mmap framebuffer");
+          close(ag_fb);
+          return -1;
+      }
       ag_b    = (word*) malloc(ag_fbsz);
       ag_bz   = (word*) malloc(ag_fbsz);
 
@@ -305,7 +322,13 @@ byte ag_init(){
         }
       }
     }
-    
+
+#ifdef DUALSYSTEM_PARTITIONS
+    // Only xiaomi devices have dual system and needs the following code
+    ag_fb_blank(1);
+    ag_fb_blank(0);
+#endif
+
     //-- Refresh Draw Lock Thread
     ag_isrun = 1;
     pthread_create(&ag_pthread, NULL, ag_thread, NULL);
@@ -313,6 +336,7 @@ byte ag_init(){
     //-- Init FreeType
     LOGS("Opening Freetype\n");
     aft_open();
+
     
     return 1;
   }
