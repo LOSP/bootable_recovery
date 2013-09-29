@@ -83,7 +83,10 @@ static STATUS sideload_menu_show(struct _menuUnit *p) {
 int is_tdb_enabled()
 {
     struct stat st;
-    miuiIntent_send(INTENT_MOUNT, 1, "/data");
+    miuiIntent_send(INTENT_ISMOUNT, 1, "/data");
+    if (miuiIntent_result_get_int() == 0) {
+        miuiIntent_send(INTENT_MOUNT, 1, "/data");
+    }
     return (lstat("/data/.truedualboot",&st)==0);
 }
 static STATUS enable_or_disable_tdb(struct _menuUnit* p)
