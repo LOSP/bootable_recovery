@@ -2,6 +2,11 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
+MIUI_VERSION := 2.11
+ifndef MIUI_NAME
+    MIUI_NAME := MIUI Recovery
+endif
+MIUI_BUILD := $(shell date +"%Y-%M-%d")
 libmiui_common_includes = $(LOCAL_PATH)/include $(LOCAL_PATH)/src
 libmiui_common_src_files :=libs/png/png.c \
     libs/png/pngerror.c \
@@ -86,6 +91,9 @@ endif
 ifeq ($(RECOVERY_NEEDS_VSYNC), true)
 LOCAL_CFLAGS += -DNEEDS_VSYNC
 endif
+LOCAL_CFLAGS += -DCONST_MIUI_BUILD="$(MIUI_BUILD)"
+LOCAL_CFLAGS += -DCONST_MIUI_VERSION="$(MIUI_VERSION)"
+LOCAL_CFLAGS += -DCONST_MIUI_NAME="$(MIUI_NAME)"
 LOCAL_STATIC_LIBRARIES += libc libm
 LOCAL_MODULE := libmiui
 

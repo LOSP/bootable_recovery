@@ -26,15 +26,15 @@ typedef int u32;
 //
 // Common Data Type
 //
-
+#define STRINGIFY(x) #x
+#define EXPAND(x) STRINGIFY(x)
 //
 // MIUI Main Configurations
 //
-#define MIUI_NAME        "MIUI Recovery"
-//rom_version
-#define MIUI_VERSION     "2.10"
-//rom date
-#define MIUI_BUILD       "2013-07"
+#define MIUI_VERSION     EXPAND(CONST_MIUI_VERSION)
+#define MIUI_NAME        EXPAND(CONST_MIUI_NAME)
+
+#define MIUI_BUILD       EXPAND(CONST_MIUI_BUILD)
 #define MIUI_BUILD_CN    "Weekend"
 #define MIUI_BUILD_L     "Dennis"
 #define MIUI_BUILD_A     "<yanhao@xiaomi.com>"
@@ -51,6 +51,7 @@ typedef int u32;
 #define MIUI_FRAMEBUFFER "/dev/graphics/fb0"
 
 #define MIUI_THEME_CNT 24
+
 // MIUI Canvas Structure
 //
 typedef struct{
